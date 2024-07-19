@@ -1,3 +1,3 @@
-# Neuronal Network in C
+# Neural Network in C
 
-A Neuronal Network for Deep Leaning, machine Learning, etc from scratch written in C !
+A Neural Network for Deep Leaning, machine Learning, etc from scratch written in C !

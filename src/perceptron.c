@@ -2,7 +2,7 @@
 #include <unistd.h>
 
 #include "perceptron.h"
-
+#include "maths.h"
 
 /**
  * Creates a new perceptron with the specified number of inputs.
@@ -45,19 +45,6 @@ void free_perceptron (struct perceptron *perceptron)
 
 
 /**
- * Sets the bias of the perceptron.
- * @param perceptron The perceptron whose bias is to be set.
- * @param bias The new bias value.
- * @pre The perceptron must be created using the make_perceptron function.
- * @post The bias of the perceptron has been updated.
- */
-int activation_function (int input_sum)
-{
-    return input_sum > 0 ? 1 : 0;
-}
-
-
-/**
  * Computes the output of the perceptron based on the given inputs and weights.
  * @param perceptron The perceptron whose output is to be computed.
  * @pre The perceptron must be created using the make_perceptron function.
@@ -69,6 +56,15 @@ void compute_output (struct perceptron *perceptron)
     if (!perceptron) return;
 
     int sum = 0;
+
+    if (perceptron->inputs == NULL || perceptron->weights == NULL)
+    {
+        fprintf(stderr, "Error: Perceptron has not been initialized.\n");
+        perceptron->output = activation_function(perceptron->bias + sum);
+        return;
+    }
+
+    
     for (int i = 0; i < perceptron->nb_inputs; i++)
     {
         sum += perceptron->inputs[i] * perceptron->weights[i];
@@ -78,8 +74,8 @@ void compute_output (struct perceptron *perceptron)
 }
 
 
-int main() {
-
+int main()
+{
 
     return 0;
 }
