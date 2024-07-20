@@ -1,16 +1,22 @@
 CC=gcc
-CFLAGS= -Wall -g -pedatic -std=c11
-EXEC=calc
+CFLAGS=-Wall -g -pedantic -std=c11
+LDFLAGS=-lm
+
+SRC_DIR=src
+BUILD_DIR=build
+
+OBJ=$(SRC:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
+
+MAIN=$(BUILD_DIR)/main.o
+
+build: mkdir -p $(BUILD_DIR)
+	$(OBJ)
 
 run:
-
-
+	./$(MAIN)
 
 clean:
-		rm -rf ./build
+	rm -f $(BUILD_DIR)/*.o
 
-build:
-		mkdir -p build
-
-cleanall:
-		rm -rf ./build
+cleanall: clean
+	rm -rf $(BUILD_DIR)
