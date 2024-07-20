@@ -1,18 +1,12 @@
 #include <malloc.h>
 #include <unistd.h>
+#include <string.h>
 
 #include "perceptron.h"
 #include "maths.h"
 
-/**
- * Creates a new perceptron with the specified number of inputs.
- * @param nb_inputs The number of inputs for the perceptron.
- * @return A pointer to the newly created perceptron. If the number of inputs is less than or equal to zero, the function returns null.
- * @pre The number of inputs must be greater than zero.
- * @post A new perceptron with the specified number of inputs has been created and returned. The inputs and weights arrays have been allocated memory.
- * @warning The weights array is not initialized to any specific value. It is assumed that the caller will initialize the weights array separately.
- */
-struct perceptron * make_perceptron (int nb_inputs)
+
+struct perceptron * make_perceptron (unsigned int nb_inputs)
 {
     if (nb_inputs <= 0) return NULL;
     
@@ -22,10 +16,33 @@ struct perceptron * make_perceptron (int nb_inputs)
     perceptron->bias = DEFAULT_BIAS_VALUE;
     perceptron->output = DEFAULT_OUTPUT_VALUE;
     
-    perceptron->inputs = malloc(nb_inputs * sizeof(int));
-    perceptron->weights = malloc(nb_inputs * sizeof(int));
+    perceptron->inputs = malloc(nb_inputs * sizeof(double));
+    perceptron->weights = malloc(nb_inputs * sizeof(double));
 
     return perceptron;
+}
+
+
+void compute_output (struct perceptron *perceptron)
+{
+    if (!perceptron) return;
+
+    double sum = 0.0;
+
+    if (perceptron->inputs == NULL || perceptron->weights == NULL)
+    {
+        write(STDOUT_FILENO, "Error: Perceptron has not been initialized.\n", strlen("Error: Perceptron has not been initialized.\n")); 
+        perceptron->output = sigmond_function(perceptron->bias + sum);
+        return;
+    }
+
+    
+    for (int i = 0; i < perceptron->nb_inputs; i++)
+    {
+        sum += perceptron->inputs[i] * perceptron->weights[i];
+    }
+
+    perceptron->output = sigmond_function(perceptron->bias + sum);
 }
 
 
@@ -41,41 +58,4 @@ void free_perceptron (struct perceptron *perceptron)
 
         free(perceptron);
     }
-}
-
-
-/**
- * Computes the output of the perceptron based on the given inputs and weights.
- * @param perceptron The perceptron whose output is to be computed.
- * @pre The perceptron must be created using the make_perceptron function.
- * @post The output of the perceptron has been computed using the provided inputs and weights.
- * @warning The function assumes that the weights and inputs arrays have been properly initialized.
- */
-void compute_output (struct perceptron *perceptron)
-{
-    if (!perceptron) return;
-
-    int sum = 0;
-
-    if (perceptron->inputs == NULL || perceptron->weights == NULL)
-    {
-        fprintf(stderr, "Error: Perceptron has not been initialized.\n");
-        perceptron->output = activation_function(perceptron->bias + sum);
-        return;
-    }
-
-    
-    for (int i = 0; i < perceptron->nb_inputs; i++)
-    {
-        sum += perceptron->inputs[i] * perceptron->weights[i];
-    }
-
-    perceptron->output = activation_function(perceptron->bias + sum);
-}
-
-
-int main()
-{
-
-    return 0;
 }

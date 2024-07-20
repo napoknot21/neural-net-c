@@ -3,20 +3,20 @@
 
 #include <stdio.h>
 
-#define DEFAULT_BIAS_VALUE 1
-#define DEFAULT_OUTPUT_VALUE 0
+#define DEFAULT_BIAS_VALUE 1.0
+#define DEFAULT_OUTPUT_VALUE 0.0
 
 struct perceptron
 {
-    int nb_inputs;
-    int bias;
-    int output;
+    unsigned int nb_inputs;
+    double bias;
+    double output;
 
-    int *inputs;
-    int *weights;
+    double *inputs;
+    double *weights;
 };
 
-struct perceptron * make_perceptron (int nb_inputs);
+struct perceptron * make_perceptron (unsigned int nb_inputs);
 
 void compute_output (struct perceptron *perceptron);
 
