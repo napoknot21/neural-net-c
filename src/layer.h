@@ -5,14 +5,19 @@
 
 #include "perceptron.h"
 
-struct layer {
-   
+struct layer 
+{   
     unsigned int nb_neurons;
-    struct percetron *neurons;
 
+    struct percetron *neurons;
+    double *outputs;
 };
 
-struct layer * make_layer (unsigned int nb_neurons);
+struct layer * make_layer (unsigned int nb_neurons, unsigned int nb_inputs);
+
+void compute_layer_output(struct layer *layer, double *inputs);
+
+void free_layer(struct layer *layer);
 
 
 #endif
